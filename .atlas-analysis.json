@@ -1,0 +1,55 @@
+{
+  "projectType": "saas",
+  "projectName": "SJSU Purity Test",
+  "projectDescription": "A fun, interactive purity test web app for San Jose State University students to track and share their campus experiences.",
+  "theme": "almond",
+  "primaryColor": "#6c6c6c",
+  "lightColor": "#0c0c0c",
+  "darkColor": "#b3b3b3",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Overview",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": ["introduction", "quickstart"]
+          },
+          {
+            "group": "Features",
+            "pages": ["features/purity-test", "features/score-results", "features/statistics"]
+          }
+        ]
+      },
+      {
+        "tab": "Technical Reference",
+        "groups": [
+          {
+            "group": "Architecture",
+            "pages": ["reference/architecture", "reference/database"]
+          },
+          {
+            "group": "API",
+            "pages": ["reference/api-submit", "reference/api-stats"]
+          },
+          {
+            "group": "Deployment",
+            "pages": ["reference/deployment", "reference/environment"]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "100-question SJSU-specific purity test with campus life scenarios",
+    "Real-time purity score calculation (higher score = more pure)",
+    "MongoDB-backed result persistence and aggregation",
+    "Community statistics page showing how all test-takers answered each question",
+    "Shareable results with clipboard copy functionality",
+    "Responsive Next.js frontend with retro serif typography"
+  ],
+  "publicApiSurface": [
+    "POST /api/submit — Saves a test result (score + answers array) to MongoDB",
+    "GET /api/stats — Returns total tests, average score, and per-question answer statistics"
+  ]
+}
