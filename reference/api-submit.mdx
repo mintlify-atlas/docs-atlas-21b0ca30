@@ -1,6 +1,6 @@
 ---
 title: 'POST /api/submit'
-api: 'POST /api/submit'
+description: 'Save a completed purity test result to MongoDB'
 ---
 
 Saves a completed purity test result to MongoDB.
@@ -32,23 +32,25 @@ Status: `500`
 ## Examples
 
 ```bash cURL
+# answers must be an array of exactly 100 boolean values
 curl -X POST https://your-domain.com/api/submit \
   -H "Content-Type: application/json" \
   -d '{
     "score": 85,
-    "answers": [false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false]
+    "answers": [false, true, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
   }'
 ```
 
 ```javascript JavaScript
+// Matching the exact call made in src/app/page.tsx
 const response = await fetch('/api/submit', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    score: 85,
-    answers: [false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false]
+    score,
+    answers: answers.slice(0, questions.length), // 100-element boolean array
   }),
 });
 

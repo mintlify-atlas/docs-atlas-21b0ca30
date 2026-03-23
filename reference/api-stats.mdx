@@ -1,6 +1,6 @@
 ---
 title: 'GET /api/stats'
-api: 'GET /api/stats'
+description: 'Retrieve community-wide statistics from all purity test submissions'
 ---
 
 Returns community-wide statistics aggregated from all purity test submissions.
@@ -38,12 +38,17 @@ Returns community-wide statistics aggregated from all purity test submissions.
   "averageScore": 67.3,
   "questionStats": [
     {
-      "question": "Have you ever pulled an all-nighter?",
+      "question": "Current student at SJSU?",
+      "count": 1501,
+      "percentage": 0.973
+    },
+    {
+      "question": "Pulled an all-nighter to finish a project or study for an exam?",
       "count": 892,
       "percentage": 0.578
     },
     {
-      "question": "Have you ever eaten at the Student Union?",
+      "question": "Went to the student union for a meal?",
       "count": 1456,
       "percentage": 0.944
     }

@@ -1,5 +1,6 @@
 ---
 title: Deployment
+description: Deploy the SJSU Purity Test to Vercel or a self-hosted Node.js environment
 ---
 
 Deploy the SJSU Purity Test application to production using Vercel (recommended) or any Node.js host.
@@ -25,29 +26,29 @@ Your connection string will look like: `mongodb+srv://<user>:<password>@<cluster
 Vercel is the recommended deployment platform for Next.js projects, offering zero-configuration deployment and automatic SSL.
 
 <Steps>
-  ### Fork or push to GitHub
+  <Step title="Fork or push to GitHub">
+    Fork the repository to your GitHub account or push your local clone to a new repository.
+  </Step>
 
-  Fork the repository to your GitHub account or push your local clone to a new repository.
+  <Step title="Import in Vercel">
+    1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
+    2. Click **Add New...** → **Project**
+    3. Select your repository from the list
+    4. Vercel auto-detects Next.js and configures the build settings automatically
+  </Step>
 
-  ### Import in Vercel
+  <Step title="Add environment variable">
+    In the Vercel project settings, add the environment variable:
 
-  1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
-  2. Click "Add New..." → "Project"
-  3. Select your repository from the list
-  4. Vercel auto-detects Next.js and configures the build settings
+    - **Name:** `MONGODB_URI`
+    - **Value:** Your MongoDB Atlas connection string
 
-  ### Add environment variable
+    Add this to both **Production** and **Preview** environments.
+  </Step>
 
-  In the Vercel project settings, add the environment variable:
-
-  - **Name:** `MONGODB_URI`
-  - **Value:** Your MongoDB Atlas connection string
-
-  Add this to both "Production" and "Preview" environments.
-
-  ### Deploy
-
-  Click "Deploy" and Vercel will build and deploy your application. The first deploy typically takes 1-2 minutes.
+  <Step title="Deploy">
+    Click **Deploy** and Vercel will build and deploy your application. The first deploy typically takes 1-2 minutes.
+  </Step>
 </Steps>
 
 <Note>

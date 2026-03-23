@@ -1,8 +1,7 @@
 ---
 title: Database
+description: MongoDB data model, schema, and aggregation queries
 ---
-
-# Database
 
 The SJSU Purity Test uses MongoDB with Mongoose for data persistence. The database stores individual test results and powers the community statistics feature through aggregation queries.
 
@@ -87,13 +86,17 @@ Determine how many users answered "yes" (checked) each question:
 ```typescript
 const questionStats = await TestResult.aggregate([
   { $unwind: { path: '$answers', includeArrayIndex: 'questionIndex' } },
-  { $match: { answers: true } },
-  { $group: { _id: '$questionIndex', count: { $sum: 1 } } },
+  {
+    $group: {
+      _id: '$questionIndex',
+      count: { $sum: { $cond: ['$answers', 1, 0] } }
+    }
+  },
   { $sort: { _id: 1 } }
 ]);
 ```
 
-The `$unwind` stage deconstructs the `answers` array, creating a separate document for each question-answer pair. The `includeArrayIndex` option captures the question number. Subsequent stages filter for `true` values and count occurrences per question.
+The `$unwind` stage deconstructs the `answers` array, creating a separate document for each question-answer pair with `questionIndex` tracking the position. The `$group` stage uses `$cond` to count only `true` values per question index, then results are sorted by question order.
 
 ## Connection Management
 

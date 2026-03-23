@@ -1,5 +1,6 @@
 ---
 title: Environment variables
+description: Configure environment variables for the SJSU Purity Test application
 ---
 
 Configure environment variables for the SJSU Purity Test application.
@@ -86,10 +87,10 @@ Please define the MONGODB_URI environment variable inside .env.local
 This error originates from `src/lib/mongodb.ts` where the connection string is accessed:
 
 ```typescript
-const uri = process.env.MONGODB_URI!
+const MONGODB_URI = process.env.MONGODB_URI!;
 
-if (!uri) {
-  throw new Error("Please define the MONGODB_URI environment variable inside .env.local")
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 ```
 
