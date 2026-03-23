@@ -1,97 +1,54 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "SJSU Purity Test"
+description: "The first-ever San Jose State University purity test — track your campus experiences and compare with your fellow Spartans."
 ---
 
-## Setting up
+<img
+  src="https://media.brand.dev/1e6600ae-377d-4165-b660-3d162b8e1b7c.png"
+  alt="SJSU Purity Test"
+  style={{ maxWidth: "200px", margin: "0 auto 2rem auto", display: "block" }}
+/>
 
-Get your documentation site up and running in minutes.
+## Welcome to the SJSU Purity Test
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+The SJSU Purity Test is a 100-question, campus-specific experience tracker inspired by the classic "rice purity test" format — reimagined for San Jose State University students. It lets you and your fellow Spartans check off real campus experiences, calculate a purity score, and see how you compare against the community.
 
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Take the test" icon="clipboard-check" href="https://github.com/dannymang/sjsuricepurity">
+    Visit the live app and discover your SJSU purity score.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Set up and run the project locally in minutes.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="How it works" icon="circle-info" href="/features/purity-test">
+    Learn how the 100-question test and scoring system work.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="API reference" icon="code" href="/reference/api-submit">
+    Explore the two REST endpoints that power the app.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## Key features
 
-Everything you need to create world-class documentation.
+<CardGroup cols={2}>
+  <Card title="100 SJSU questions" icon="list-check">
+    Every question is tailored to real San Jose State experiences — from Sparcos runs at midnight to parking ticket horror stories.
+  </Card>
+  <Card title="Instant score calculation" icon="calculator">
+    Your purity score is calculated as soon as you submit: `(unanswered / 100) * 100`. Higher score means more pure.
+  </Card>
+  <Card title="Community statistics" icon="chart-bar">
+    See how the entire SJSU community answered every question — total test count, average score, and per-question percentages.
+  </Card>
+  <Card title="Shareable results" icon="share-nodes">
+    Copy your score and the site link to your clipboard in one click and share with friends.
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## About this project
 
-## Need inspiration?
+Built with **Next.js 15**, **React 19**, **TypeScript**, and **MongoDB** (via Mongoose), the SJSU Purity Test stores every submitted result and aggregates community-wide statistics in real time. The entire project was prototyped in a couple of hours using Cursor.
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<Note>
+  This is not a bucket list. As the app itself warns: you are beyond cooked if you complete all 100 items.
+</Note>

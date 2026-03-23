@@ -1,0 +1,83 @@
+---
+title: The Purity Test
+description: Take the 100-question SJSU campus life experience test
+---
+
+# The Purity Test
+
+The SJSU Purity Test is a 100-question quiz that measures your campus life experiences at San José State University. Each question describes a specific scenario or experience related to SJSU, and you check off the items you've done.
+
+## How It Works
+
+The test presents 100 checkbox questions covering various aspects of SJSU campus life. Simply check the boxes for experiences you've had, then submit to receive your purity score.
+
+The scoring formula calculates your percentage of "purity":
+
+```javascript
+const score = Math.round(((questions.length - checkedCount) / questions.length) * 100)
+```
+
+**How scoring works:**
+- More checked items = lower score (less pure)
+- Fewer checked items = higher score (more pure)
+- A score of 100 means you checked nothing (maximum purity)
+- A score of 0 means you checked everything (minimum purity)
+
+<Note>
+The purity test is meant for fun and nostalgia. It's not a bucket list — we don't recommend trying to check off every item!
+</Note>
+
+## Question Categories
+
+The 100 questions span multiple categories of SJSU campus life:
+
+<AccordionGroup>
+<Accordion title="Academics">
+- Current student at SJSU?
+- Cheated on an exam?
+- Used AI tools to complete homework?
+- Turned in an assignment at 11:59?
+- Got rejected from every UC?
+</Accordion>
+
+<Accordion title="Dorms & Housing">
+- Stayed at a dorm freshman year?
+- Been to a frat party and ended up getting too drunk and puking?
+</Accordion>
+
+<Accordion title="Campus Food">
+- Ate @ the best food spot on campus (Halal Shack) for a week straight?
+- Been to Sparcos?
+</Accordion>
+
+<Accordion title="Parking & Transportation">
+- Got a parking ticket?
+</Accordion>
+
+<Accordion title="Campus Landmarks & Spots">
+- Been to the MLK library?
+- Went to the SRAC (Student Recreation and Aquatic Center)?
+- Did 7th Street tabling?
+</Accordion>
+
+<Accordion title="Social & Campus Life">
+- Been to a frat party?
+- Had a crush on one of your professors or TAs?
+- Participated in intramurals?
+- Joined a club on campus?
+- Been to a career fair?
+- Used the Sammy app?
+</Accordion>
+</AccordionGroup>
+
+## Taking the Test
+
+To take the purity test:
+
+1. Navigate to the home page at `/`
+2. Read through all 100 questions
+3. Check the boxes for experiences you've had
+4. Click submit to see your score
+5. Your answers and score are saved to the database
+
+After submission, you'll be redirected to the results page where you can view your score and share it with friends.

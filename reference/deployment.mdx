@@ -1,0 +1,116 @@
+---
+title: Deployment
+---
+
+Deploy the SJSU Purity Test application to production using Vercel (recommended) or any Node.js host.
+
+## MongoDB Atlas Setup
+
+Before deploying, set up your MongoDB database:
+
+1. Create a free MongoDB Atlas account at [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+2. Create a new cluster (the free M0 tier is sufficient for development)
+3. Create a database user with read/write permissions
+4. Whitelist your IP address (or use `0.0.0.0/0` for all IPs in production)
+5. Get your connection string from the "Connect" button
+
+<Note>
+Your connection string will look like: `mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<dbname>?retryWrites=true&w=majority`
+</Note>
+
+---
+
+## Deploy to Vercel
+
+Vercel is the recommended deployment platform for Next.js projects, offering zero-configuration deployment and automatic SSL.
+
+<Steps>
+  ### Fork or push to GitHub
+
+  Fork the repository to your GitHub account or push your local clone to a new repository.
+
+  ### Import in Vercel
+
+  1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
+  2. Click "Add New..." → "Project"
+  3. Select your repository from the list
+  4. Vercel auto-detects Next.js and configures the build settings
+
+  ### Add environment variable
+
+  In the Vercel project settings, add the environment variable:
+
+  - **Name:** `MONGODB_URI`
+  - **Value:** Your MongoDB Atlas connection string
+
+  Add this to both "Production" and "Preview" environments.
+
+  ### Deploy
+
+  Click "Deploy" and Vercel will build and deploy your application. The first deploy typically takes 1-2 minutes.
+</Steps>
+
+<Note>
+The application will continue to display purity test scores even if MongoDB is unreachable, but new submissions will not be persisted.
+</Note>
+
+---
+
+## Self-Hosted Deployment
+
+Deploy to any platform that supports Node.js, including Railway, Render, DigitalOcean App Platform, or your own servers.
+
+### Requirements
+
+- Node.js 18.x or higher (Node.js 20.x recommended)
+- npm, yarn, or pnpm
+
+### Build and Start
+
+<CodeGroup>
+
+```bash npm
+npm install
+npm run build
+npm start
+```
+
+```bash yarn
+yarn install
+yarn build
+yarn start
+```
+
+```bash pnpm
+pnpm install
+pnpm build
+pnpm start
+```
+
+</CodeGroup>
+
+### Set Environment Variables
+
+Set `MONGODB_URI` before running the start command:
+
+<CodeGroup>
+
+```bash Linux/macOS
+export MONGODB_URI="your-connection-string"
+npm start
+```
+
+```bash Windows (PowerShell)
+$env:MONGODB_URI="your-connection-string"
+npm start
+```
+
+</CodeGroup>
+
+<Tip>
+Most hosting platforms provide a dashboard to set environment variables. Set `MONGODB_URI` there rather than in your shell commands.
+</Tip>
+
+<Note>
+Ensure your Node.js version matches the build environment. Building with Node.js 20 and running with Node.js 18 may cause compatibility issues.
+</Note>

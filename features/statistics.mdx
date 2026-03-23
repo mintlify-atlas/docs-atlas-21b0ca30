@@ -1,0 +1,60 @@
+---
+title: Community Statistics
+description: View aggregate statistics from all purity test submissions
+---
+
+# Community Statistics
+
+The statistics page at `/stats` displays aggregate data collected from all purity test submissions. This page reveals which campus experiences are most and least common among SJSU students.
+
+## Data Source
+
+Statistics are fetched live from the backend via a `GET` request to `/api/stats`. The data is stored in a MongoDB database and aggregated in real-time when you visit the page.
+
+```typescript
+const response = await fetch('/api/stats')
+const data = await response.json()
+```
+
+## Available Statistics
+
+### Summary Stats
+
+| Statistic | Description |
+| --------- | ----------- |
+| `totalTests` | Total number of purity tests submitted |
+| `averageScore` | Average purity score across all submissions |
+
+### Question Statistics
+
+Each of the 100 questions has detailed statistics:
+
+| Field | Description |
+| ----- | ----------- |
+| `question` | The question text |
+| `count` | Number of people who checked this item |
+| `percentage` | Percentage of test takers who checked this item |
+
+## Viewing the Statistics
+
+The statistics page displays:
+
+1. **Total tests taken** — How many people have completed the purity test
+2. **Average score** — The mean purity score across all submissions
+3. **Per-question breakdown** — A bar-style visualization for each question showing how many people (and what percentage) have experienced each scenario
+
+<Note>
+The statistics page handles both loading states and error states gracefully. If the API request fails, an error message will be displayed.
+</Note>
+
+## Insights
+
+The question statistics reveal interesting insights about SJSU campus culture:
+
+- Which experiences are nearly universal (high percentages)
+- Which experiences are rare (low percentages)
+- How your own answers compare to the broader SJSU community
+
+<Tip>
+Check back periodically — statistics update in real-time as more people take the test!
+</Tip>

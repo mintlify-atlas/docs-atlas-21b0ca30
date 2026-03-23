@@ -1,0 +1,59 @@
+---
+title: Introduction
+---
+
+# Introduction
+
+Welcome to the SJSU Purity Test documentation! The SJSU Purity Test is a 100-question campus experience tracker designed specifically for San Jose State University students. It's a fun way for Spartans to reflect on their college journey, compare experiences with peers, and discover how they stack up against the community.
+
+## What is the SJSU Purity Test?
+
+The SJSU Purity Test presents students with 100 questions covering a wide range of campus experiences—from academic moments like "Pulled an all-nighter to finish a project or study for an exam?" to social experiences like "Been to a frat party?" and unique SJSU situations like "Was in the SU during the Panda Express fire?" or "Got rejected from every UC?"
+
+Students check off experiences they've had, and at the end receive a **purity score** calculated using the formula:
+
+```typescript
+const score = Math.round(((questions.length - checkedCount) / questions.length) * 100);
+```
+
+A higher score means more "pure"—fewer experiences checked off. A lower score means you've been around the block at SJSU!
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Take the Test" href="/quickstart" icon="clipboard-check">
+    Answer 100 questions about your SJSU experiences and get your purity score.
+  </Card>
+  <Card title="View Results" href="/quickstart" icon="chart-bar">
+    See your score, share it with friends, and compare with community statistics.
+  </Card>
+  <Card title="Community Stats" href="/quickstart" icon="users">
+    View aggregate statistics showing how your experiences compare to other Spartans.
+  </Card>
+  <Card title="Share & Connect" href="/quickstart" icon="share-nodes">
+    Share your results and see how you stack up against the SJSU community.
+  </Card>
+</CardGroup>
+
+## Tech Stack
+
+The SJSU Purity Test is built with modern web technologies:
+
+- **Next.js 15** with App Router and Turbopack
+- **React 19** for the UI
+- **TypeScript** for type safety
+- **MongoDB** with Mongoose for data persistence
+- **Tailwind CSS 4** for styling
+
+The app features a clean, vintage-inspired design with a cream and dark red color scheme that gives it a classic college feel.
+
+## Getting Started
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" href="/quickstart" icon="rocket">
+    Get the app running locally in just a few minutes.
+  </Card>
+  <Card title="API Reference" href="/reference/api-submit" icon="code">
+    Learn about the API endpoints for submitting results and fetching stats.
+  </Card>
+</CardGroup>

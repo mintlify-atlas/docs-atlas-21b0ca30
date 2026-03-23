@@ -1,0 +1,98 @@
+---
+title: Environment variables
+---
+
+Configure environment variables for the SJSU Purity Test application.
+
+## Required Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `MONGODB_URI` | Yes | MongoDB connection string |
+
+### MONGODB_URI
+
+The MongoDB connection string used to connect to your database. Used in `src/lib/mongodb.ts`.
+
+**Format:**
+
+```
+mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<dbname>?retryWrites=true&w=majority
+```
+
+**Example:**
+
+```
+mongodb+srv://sjsuuser:mypassword123@cluster0.abcde.mongodb.net/sjsu-purity-test?retryWrites=true&w=majority
+```
+
+---
+
+## Local Development
+
+Create a `.env.local` file in your project root:
+
+```env .env.local
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<dbname>?retryWrites=true&w=majority
+```
+
+<Note>
+Next.js automatically loads `.env.local` and it's gitignored by default—you don't need to add it to `.gitignore`.
+</Note>
+
+<Tip>
+MongoDB Atlas free tier (M0 cluster) is sufficient for local development and testing.
+</Tip>
+
+---
+
+## Production
+
+Set environment variables through your hosting platform:
+
+<CodeGroup>
+
+```text Vercel
+Project Settings → Environment Variables
+Add MONGODB_URI to Production and Preview
+```
+
+```text Railway
+Project → Variables tab
+Add MONGODB_URI
+```
+
+```text Render
+Environment → Environment Variables
+Add MONGODB_URI
+```
+
+```text Docker
+docker run -e MONGODB_URI=your-connection-string your-image
+```
+
+</CodeGroup>
+
+---
+
+## Error Handling
+
+If `MONGODB_URI` is not defined, the application throws an error on startup:
+
+```
+Please define the MONGODB_URI environment variable inside .env.local
+```
+
+This error originates from `src/lib/mongodb.ts` where the connection string is accessed:
+
+```typescript
+const uri = process.env.MONGODB_URI!
+
+if (!uri) {
+  throw new Error("Please define the MONGODB_URI environment variable inside .env.local")
+}
+```
+
+<Warning>
+Never commit real credentials to version control. Always use environment variables for sensitive data like database passwords and connection strings.
+</Warning>

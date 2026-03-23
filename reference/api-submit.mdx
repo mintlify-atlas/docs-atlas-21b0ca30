@@ -1,0 +1,61 @@
+---
+title: 'POST /api/submit'
+api: 'POST /api/submit'
+---
+
+Saves a completed purity test result to MongoDB.
+
+## Request body
+
+<ParamField path="body.score" type="number" required>
+  Purity score from 0 to 100.
+</ParamField>
+
+<ParamField path="body.answers" type="boolean[]" required>
+  Array of 100 boolean values representing each question answer. `true` indicates the user answered "yes" to that question.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the result was saved successfully.
+</ResponseField>
+
+### Error response
+
+Status: `500`
+
+<ResponseField name="error" type="string">
+  Error message: `"Failed to save test result"`
+</ResponseField>
+
+## Examples
+
+```bash cURL
+curl -X POST https://your-domain.com/api/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "score": 85,
+    "answers": [false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false]
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('/api/submit', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    score: 85,
+    answers: [false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false, true, false, false, true, false]
+  }),
+});
+
+const data = await response.json();
+// { success: true }
+```
+
+<Note>
+  The app proceeds to show results even if this endpoint fails. The submission is non-blocking and does not affect the user experience.
+</Note>

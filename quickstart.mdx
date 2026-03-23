@@ -1,80 +1,94 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quickstart
 ---
 
-## Get started in three steps
+# Quickstart
 
-Get your documentation site running locally and make your first customization.
+Get the SJSU Purity Test up and running on your local machine in just a few minutes.
 
-### Step 1: Set up your local environment
+<Steps>
+  <Step title="Clone the repository">
+    Clone the project from GitHub and navigate to the project directory:
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    ```bash
+    git clone https://github.com/dannymang/sjsuricepurity.git && cd sjsuricepurity
+    ```
+  </Step>
 
-### Step 2: Deploy your changes
+  <Step title="Install dependencies">
+    Install the project dependencies using your preferred package manager:
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    <CodeGroup>
+      ```bash npm
+      npm install
+      ```
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+      ```bash yarn
+      yarn install
+      ```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+      ```bash pnpm
+      pnpm install
+      ```
+    </CodeGroup>
+  </Step>
 
-### Step 3: Go live
+  <Step title="Set up environment variables">
+    Create a `.env.local` file in the root directory with your MongoDB connection string:
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+    ```bash
+    MONGODB_URI=your_mongodb_connection_string
+    ```
 
-## Next steps
+    The app requires a MongoDB connection to store test results and power the community statistics feature. The connection string format for MongoDB Atlas looks like:
 
-Now that you have your docs running, explore these key features:
+    ```
+    mongodb+srv://<username>:<password>@cluster.mongodb.net/<dbname>?retryWrites=true&w=majority
+    ```
 
-<CardGroup cols={2}>
+    <Note>
+      You'll need a MongoDB Atlas account (free tier available) or a local MongoDB instance running on your machine. If you're using MongoDB Atlas, make sure to whitelist your IP address in the cluster's network access settings.
+    </Note>
+  </Step>
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+  <Step title="Run the development server">
+    Start the Next.js development server:
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+    <CodeGroup>
+      ```bash npm
+      npm run dev
+      ```
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+      ```bash yarn
+      yarn dev
+      ```
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+      ```bash pnpm
+      pnpm dev
+      ```
+    </CodeGroup>
 
-</CardGroup>
+    This starts the development server with Turbopack enabled for fast hot module replacement.
+  </Step>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+  <Step title="Open the app">
+    Open [http://localhost:3000](http://localhost:3000) in your browser to see the SJSU Purity Test in action.
+
+    You can now:
+    - Answer the 100 questions about your SJSU experiences
+    - Get your purity score
+    - View community statistics
+
+    <Tip>
+      The app is fully functional even without MongoDB! The purity score is calculated entirely client-side in `src/app/page.tsx`. If the API call to save results fails, the error is caught and you're still redirected to the results page with your score. Only the community statistics feature requires a working database connection.
+    </Tip>
+  </Step>
+</Steps>
+
+## Next Steps
+
+Now that you have the app running, here are some things you might want to explore:
+
+- Check out the [API Reference](/reference/api-submit) to understand how results are saved and statistics are calculated
+- Learn about the [Architecture](/reference/architecture) and how the app is structured
+- Deploy your instance to [Vercel or another platform](/reference/deployment)

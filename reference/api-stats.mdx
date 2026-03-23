@@ -1,0 +1,75 @@
+---
+title: 'GET /api/stats'
+api: 'GET /api/stats'
+---
+
+Returns community-wide statistics aggregated from all purity test submissions.
+
+## Response
+
+<ResponseField name="totalTests" type="number">
+  Total number of test submissions.
+</ResponseField>
+
+<ResponseField name="averageScore" type="number">
+  Average purity score across all submissions.
+</ResponseField>
+
+<ResponseField name="questionStats" type="array">
+  Per-question statistics showing how many users answered "yes" to each question.
+  <Expandable title="item properties">
+    <ResponseField name="question" type="string">
+      The question text.
+    </ResponseField>
+    <ResponseField name="count" type="number">
+      Number of users who answered "yes" to this question.
+    </ResponseField>
+    <ResponseField name="percentage" type="number">
+      Fraction of users who answered "yes" (value between 0 and 1). Multiply by 100 for display percentage.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Sample response
+
+```json
+{
+  "totalTests": 1542,
+  "averageScore": 67.3,
+  "questionStats": [
+    {
+      "question": "Have you ever pulled an all-nighter?",
+      "count": 892,
+      "percentage": 0.578
+    },
+    {
+      "question": "Have you ever eaten at the Student Union?",
+      "count": 1456,
+      "percentage": 0.944
+    }
+  ]
+}
+```
+
+## Examples
+
+```bash cURL
+curl https://your-domain.com/api/stats
+```
+
+```javascript JavaScript
+const response = await fetch('/api/stats');
+const stats = await response.json();
+
+console.log(`Total tests: ${stats.totalTests}`);
+console.log(`Average score: ${stats.averageScore}`);
+console.log(`First question yes percentage: ${(stats.questionStats[0].percentage * 100).toFixed(1)}%`);
+```
+
+<Note>
+  This endpoint uses `dynamic = 'force-dynamic'` and `revalidate = 0`, meaning it always returns fresh data with no caching.
+</Note>
+
+<Note>
+  The `percentage` field is a fraction between 0 and 1. Multiply by 100 to display as a percentage.
+</Note>

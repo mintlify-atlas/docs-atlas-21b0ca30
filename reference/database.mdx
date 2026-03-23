@@ -1,0 +1,166 @@
+---
+title: Database
+---
+
+# Database
+
+The SJSU Purity Test uses MongoDB with Mongoose for data persistence. The database stores individual test results and powers the community statistics feature through aggregation queries.
+
+## Data Model
+
+The application uses a single collection, `testresults`, defined by the `TestResult` Mongoose model:
+
+```typescript src/lib/models/TestResult.ts
+import mongoose from 'mongoose';
+
+const TestResultSchema = new mongoose.Schema({
+  score: Number,
+  answers: [Boolean],
+  timestamp: { type: Date, default: Date.now }
+});
+
+export const TestResult = mongoose.models.TestResult || 
+  mongoose.model('TestResult', TestResultSchema);
+```
+
+## Schema Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `score` | Number | The purity score (0-100). Calculated as `Math.round(((100 - checkedCount) / 100) * 100)`. |
+| `answers` | [Boolean] | Array of 100 boolean values representing which questions were checked (`true`) or unchecked (`false`). Index corresponds to question number. |
+| `timestamp` | Date | When the result was submitted. Auto-set to `Date.now()` on creation. |
+
+## Sample Document
+
+```json
+{
+  "_id": "6601a2b3c4d5e6f7a8b9c0d1",
+  "score": 72,
+  "answers": [
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false
+  ],
+  "timestamp": "2024-03-15T10:30:00.000Z",
+  "__v": 0
+}
+```
+
+<Note>
+  The `answers` array shown above is truncated for brevity. In production, it contains exactly 100 boolean values.
+</Note>
+
+## Aggregation Queries
+
+The `GET /api/stats` endpoint uses MongoDB aggregation pipelines to calculate community statistics.
+
+### Total Tests
+
+Count all documents in the collection:
+
+```typescript
+const totalTests = await TestResult.countDocuments();
+```
+
+### Average Score
+
+Calculate the mean score across all submissions:
+
+```typescript
+const averageScore = await TestResult.aggregate([
+  { $group: { _id: null, averageScore: { $avg: '$score' } } }
+]);
+```
+
+### Per-Question Statistics
+
+Determine how many users answered "yes" (checked) each question:
+
+```typescript
+const questionStats = await TestResult.aggregate([
+  { $unwind: { path: '$answers', includeArrayIndex: 'questionIndex' } },
+  { $match: { answers: true } },
+  { $group: { _id: '$questionIndex', count: { $sum: 1 } } },
+  { $sort: { _id: 1 } }
+]);
+```
+
+The `$unwind` stage deconstructs the `answers` array, creating a separate document for each question-answer pair. The `includeArrayIndex` option captures the question number. Subsequent stages filter for `true` values and count occurrences per question.
+
+## Connection Management
+
+### Connection Caching Pattern
+
+MongoDB connections are managed through a caching utility in `src/lib/mongodb.ts`:
+
+```typescript src/lib/mongodb.ts
+import mongoose from 'mongoose';
+
+interface MongooseConnection {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+const MONGODB_URI = process.env.MONGODB_URI!;
+
+const cached: MongooseConnection = globalWithMongoose.mongoose || {
+  conn: null,
+  promise: null,
+};
+
+async function connectDB(): Promise<typeof mongoose> {
+  if (cached.conn) {
+    return cached.conn;
+  }
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false });
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+export default connectDB;
+```
+
+### Why Caching Matters
+
+<Warning>
+  Without connection caching, serverless environments can exhaust MongoDB connection limits. Each function invocation could create a new connection instead of reusing an existing one.
+</Warning>
+
+The caching pattern addresses two scenarios:
+
+1. **Development hot-reload** — Next.js development mode frequently restarts the server. Without caching, each reload creates a new connection, quickly hitting MongoDB Atlas's connection pool limit (typically 100 connections on free tier).
+
+2. **Serverless warm starts** — When a serverless function is "warm" (recently invoked), the global variable persists. Reusing the cached connection avoids the overhead of establishing a new connection.
+
+<Tip>
+  The `bufferCommands: false` option disables Mongoose's internal buffering. This ensures connection errors surface immediately rather than queuing operations that would fail anyway.
+</Tip>
+
+## Model Registration Pattern
+
+The `TestResult` model uses a registration pattern that prevents model overwrite errors:
+
+```typescript
+export const TestResult = mongoose.models.TestResult || 
+  mongoose.model('TestResult', TestResultSchema);
+```
+
+This pattern:
+
+1. First checks if `mongoose.models.TestResult` already exists (from a previous import)
+2. If it exists, reuses the existing model
+3. If not, creates and registers a new model
+
+<Info>
+  In development, this pattern prevents the `OverwriteModelError: Cannot overwrite TestResult model once compiled` error that occurs when Next.js hot-reloads the model file.
+</Info>
